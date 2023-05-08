@@ -140,3 +140,29 @@ $ make FLAVORS=pacific,centos,8 build
 - 遇到问题：https://github.com/ceph/ceph-container/issues/2113
 
 - 备注: 该镜像是基于ceph pacific版本的rpm包（[Index of /](http://download.ceph.com/)）编译完成，官方文档有备注说明能支持基于分支编译，本人还未测试过
+
+### 运行一个测试集群
+
+```shell
+$ cd /home/xxx/workspace # 此目录用户指定，用于下载ceph的代码
+$ git clone git@github.com:ceph/ceph
+$ git checkout -b v16.2.12 v16.2.12
+$ docker run -v /home/xxx/workspace/ceph:/ceph -ti quay.io/centos/centos:stream bash
+$ cd /ceph
+$ 修改./install-deps.sh脚本， 替换'pip >= 7.0'为'pip >= 21.0'
+$ dnf install git
+$ ./install-deps.sh
+$ ./do_cmake.sh -DCMAKE_BUILD_TYPE=RelWithDebInfo
+$ cd ./build & make vstart
+$ ../src/vstart.sh --debug --new -x --localhost --bluestore
+$ pip3 install pyyaml
+$ ./bin/ceph -s
+
+测试
+$ ./bin/rados -p rbd bench 30 write
+$ ./bin/rbd create foo --size 100
+
+停止集群
+$ ../src/stop.sh
+```
+
