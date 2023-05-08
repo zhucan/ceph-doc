@@ -154,8 +154,9 @@ $ dnf install git
 $ ./install-deps.sh
 $ ./do_cmake.sh -DCMAKE_BUILD_TYPE=RelWithDebInfo
 $ cd ./build & make vstart
-$ ../src/vstart.sh --debug --new -x --localhost --bluestore
 $ pip3 install pyyaml
+$ dnf install hostname
+$ ../src/vstart.sh --debug --new -x --localhost --bluestore
 $ ./bin/ceph -s
 
 测试
