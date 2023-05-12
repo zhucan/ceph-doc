@@ -114,11 +114,11 @@
 ​		**备注**：使用listomapkeys可以先读出桶中所有的对象列表，rclone基于对象列表做迁移，可以提高迁移速度
 
 - **rgw gc参数解释**
+  1. GC worker的数量由rgw_gc_max_objs来控制，设置这个参数的时候要考虑到你线上业务是否会有大量的GC操作，不要盲目调高。默认，32。
+  1. rgw_gc_processor_max_time控制每次GC任务最多能够执行的时长，要考虑到你底层存储设备的负载情况，高速存储设备可以适当缩小，但是当底层存储设备比较慢并且负载较高的时候，考虑到GC的额外性能消耗，可能就要调大这个时长了。默认，1小时。
+  1. rgw_gc_obj_min_wait 这个控制删除数据以后多久以后开始真正的底层数据回收，默认是2小时，如果线上对空间资源利用率比较敏感，可以适当缩短。
+  1. rgw_gc_processor_period 这个控制多久时长以后GCworker开始下一轮的GC操作，如果单次GC需要操作的列表条目数较少，可以适当缩短这个参数。
 
-1. GC worker的数量由rgw_gc_max_objs来控制，设置这个参数的时候要考虑到你线上业务是否会有大量的GC操作，不要盲目调高。默认，32。
-2. rgw_gc_processor_max_time控制每次GC任务最多能够执行的时长，要考虑到你底层存储设备的负载情况，高速存储设备可以适当缩小，但是当底层存储设备比较慢并且负载较高的时候，考虑到GC的额外性能消耗，可能就要调大这个时长了。默认，1小时。
-3. rgw_gc_obj_min_wait 这个控制删除数据以后多久以后开始真正的底层数据回收，默认是2小时，如果线上对空间资源利用率比较敏感，可以适当缩短。
-4. rgw_gc_processor_period 这个控制多久时长以后GCworker开始下一轮的GC操作，如果单次GC需要操作的列表条目数较少，可以适当缩短这个参数。
 
 - **ceph mgr相关操作**
 
@@ -154,7 +154,7 @@
 
   **备注：相关问题https://github.com/rook/rook/pull/11932**
 
-- 调整osd的日志等级
+- **调整osd的日志等级**
 
   ```
   $ ceph tell osd.* injectargs '--debug-osd 20' //默认日志等级为10
@@ -163,3 +163,42 @@
 - 如何解决"Large omap objects"
 
   https://gist.github.com/likid0/4deb8bfd40660bdd125f3f89aa5245f4
+  
+- **ceph debug**
+
+  1. 编译可调式ceph源码，启动单节点ceph集群
+
+    ```shell
+    $ cd /home/xxx/workspace # 此目录用户指定，用于下载ceph的代码
+    $ git clone git@github.com:ceph/ceph
+    $ git checkout -b v16.2.12 v16.2.12
+    $ docker run -v /home/xxx/workspace/ceph:/ceph -ti quay.io/centos/centos:stream bash
+    $ cd /ceph
+    $ 修改./install-deps.sh脚本， 替换'pip >= 7.0'为'pip >= 21.0'
+    $ dnf install git
+    $ ./install-deps.sh
+    $ ./do_cmake.sh -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_BUILD_TYPE=Debug  -DCMAKE_CXX_FLAGS_DEBUG="$CXX_FLAGS_DEBUG -O0 -g" -DCMAKE_C_FLAGS_DEBUG="$C_FLAGS_DEBUG -O0 -g"
+    $ cd ./build && make -j8
+    $ make vstart
+    $ RGW=1 ../src/vstart.sh --debug --new -x --localhost --bluestore #启动单节点ceph集群
+    
+    # make help查询可编译的组件
+    ```
+
+  2. debug  "ceph" cmd
+
+    ```shell
+    $ gdb --args python3 ./bin/ceph -s
+    $ b xxx #设置断点
+    $ r #运行程序
+    ```
+
+  3. debug "radosgw-admin" cmd
+
+    ```shell
+    $ gdb --args ./bin/radosgw-admin user list
+    $ b main #设置断点
+    $ r #运行程序
+    ```
+
+  4.  debug "rgw"
