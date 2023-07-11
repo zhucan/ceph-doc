@@ -201,4 +201,14 @@
     $ r #运行程序
     ```
 
-  4.  debug "rgw"
+  4.  动态设置debug等级
+  
+  ```shell
+  $ ./bin/radosgw-admin user list --debug-ms=20
+  ```
+  
+  ​	更多日志等级设置，请查看：https://docs.ceph.com/en/latest/rados/troubleshooting/log-and-debug/
+  
+  
+  
+  
