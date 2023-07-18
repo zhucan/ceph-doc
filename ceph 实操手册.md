@@ -163,7 +163,7 @@
 - 如何解决"Large omap objects"
 
   https://gist.github.com/likid0/4deb8bfd40660bdd125f3f89aa5245f4
-  
+
 - **ceph debug**
 
   1. 编译可调式ceph源码，启动单节点ceph集群
@@ -202,13 +202,21 @@
     ```
 
   4.  动态设置debug等级
-  
+
   ```shell
   $ ./bin/radosgw-admin user list --debug-ms=20
   ```
-  
+
   ​	更多日志等级设置，请查看：https://docs.ceph.com/en/latest/rados/troubleshooting/log-and-debug/
+
   
-  
-  
+
+- 如何关闭osd scrub和deep scrub
+
+  ![image-20230718142241368](./images/image-20230718142241368.png)
+
+  ```shell
+  ceph config set osd osd_max_scrubs 1
+  ```
+
   
