@@ -211,7 +211,7 @@
 
   
 
-- 如何关闭osd scrub和deep scrub
+- **如何关闭osd scrub和deep scrub**
 
   ![image-20230718142241368](./images/image-20230718142241368.png)
 
@@ -220,7 +220,7 @@
   ```
 
 
-- 如何修复“Possible data damage: 2 pgs recovery_unfound”
+- **如何修复“Possible data damage: 2 pgs recovery_unfound”**
 
   ![image-20230720100608364](./images/image-20230720100608364.png)	
 
@@ -230,3 +230,10 @@ $ ceph pg xx mark_unfound_lost delete #将有问题的pg标记为delete
 $ ceph pg dump | grep xx #查看pg是否恢复
 ```
 
+- **RGW dynamic bucket sharding**
+
+​		Backgroud：https://ceph.io/en/news/blog/2017/new-luminous-rgw-dynamic-bucket-sharding/
+
+​		bucket resharding 的影响：阻塞write io, https://lists.ceph.io/hyperkitty/list/dev@ceph.io/thread/NG56XXAM5A4JONT4BGPQAZUTJAYMOSZ2/
+
+​		性能测试：https://www.redhat.com/zh/blog/ceph-rgw-dynamic-bucket-sharding-performance-investigation-and-guidance
