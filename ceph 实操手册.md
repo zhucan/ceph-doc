@@ -219,4 +219,14 @@
   ceph config set osd osd_max_scrubs 1
   ```
 
-  
+
+- 如何修复“Possible data damage: 2 pgs recovery_unfound”
+
+  ![image-20230720100608364](./images/image-20230720100608364.png)	
+
+```shell
+$ ceph health detail  #查找有问题的pg
+$ ceph pg xx mark_unfound_lost delete #将有问题的pg标记为delete
+$ ceph pg dump | grep xx #查看pg是否恢复
+```
+
