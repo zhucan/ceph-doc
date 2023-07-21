@@ -237,3 +237,7 @@ $ ceph pg dump | grep xx #查看pg是否恢复
 ​		bucket resharding 的影响：阻塞write io, https://lists.ceph.io/hyperkitty/list/dev@ceph.io/thread/NG56XXAM5A4JONT4BGPQAZUTJAYMOSZ2/
 
 ​		性能测试：https://www.redhat.com/zh/blog/ceph-rgw-dynamic-bucket-sharding-performance-investigation-and-guidance
+
+- **手动使集群数据重平衡**
+
+  https://github.com/digitalocean/pgremapper
