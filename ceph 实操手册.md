@@ -185,6 +185,8 @@
     # make help查询可编译的组件
     ```
 
+   备注：更方便在容器内debug的container运行方式，**docker run --network host --cap-add=SYS_MODULE --security-opt seccomp=unconfined -v /home/deeproute/workspace/ceph:/ceph -v /sys/kernel/debug:/sys/kernel/debug -v /usr/src/kernels:/usr/src/kernels -v /usr/lib/modules/:/usr/lib/modules/ -v /usr/lib/debug:/usr/lib/debug -ti zhucan/centos:stream-env  bash**
+
   2. debug  "ceph" cmd
 
     ```shell
@@ -232,11 +234,11 @@ $ ceph pg dump | grep xx #查看pg是否恢复
 
 - **RGW dynamic bucket sharding**
 
-​		Backgroud：https://ceph.io/en/news/blog/2017/new-luminous-rgw-dynamic-bucket-sharding/
+  - Backgroud：https://ceph.io/en/news/blog/2017/new-luminous-rgw-dynamic-bucket-sharding/
 
-​		bucket resharding 的影响：阻塞write io, https://lists.ceph.io/hyperkitty/list/dev@ceph.io/thread/NG56XXAM5A4JONT4BGPQAZUTJAYMOSZ2/
+  - bucket resharding 的影响：阻塞write io, https://lists.ceph.io/hyperkitty/list/dev@ceph.io/thread/NG56XXAM5A4JONT4BGPQAZUTJAYMOSZ2/
 
-​		性能测试：https://www.redhat.com/zh/blog/ceph-rgw-dynamic-bucket-sharding-performance-investigation-and-guidance
+  - 性能测试：https://www.redhat.com/zh/blog/ceph-rgw-dynamic-bucket-sharding-performance-investigation-and-guidance
 
 - **手动使集群数据重平衡**
 
