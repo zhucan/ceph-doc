@@ -225,12 +225,12 @@
 - **如何修复“Possible data damage: 2 pgs recovery_unfound”**
 
   ![image-20230720100608364](./images/image-20230720100608364.png)	
-
-```shell
-$ ceph health detail  #查找有问题的pg
-$ ceph pg xx mark_unfound_lost delete #将有问题的pg标记为delete
-$ ceph pg dump | grep xx #查看pg是否恢复
-```
+  
+  ```shell
+  $ ceph health detail  #查找有问题的pg
+  $ ceph pg xx mark_unfound_lost delete #将有问题的pg标记为delete
+  $ ceph pg dump | grep xx #查看pg是否恢复
+  ```
 
 - **RGW dynamic bucket sharding**
 
@@ -243,3 +243,15 @@ $ ceph pg dump | grep xx #查看pg是否恢复
 - **手动使集群数据重平衡**
 
   https://github.com/digitalocean/pgremapper
+
+- 使用ceph config设置scrub时间
+
+  ```shell
+  $ ceph config set osd osd_scrub_begin_hour 1
+  $ ceph config set osd osd osd_scrub_end_hour 7
+  $ ceph config set osd osd osd_scrub_begin_week_day 6
+  $ ceph config set osd osd osd_scrub_end_week_day 7
+  $ ceph config set mgr osd_deep_scrub_randomize_ratio  0
+  ```
+
+  
