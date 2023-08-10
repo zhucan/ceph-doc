@@ -242,7 +242,18 @@
 
 - **手动使集群数据重平衡**
 
+  基于pgremapper平衡数据：
+
   https://github.com/digitalocean/pgremapper
+
+  基于ceph cmd平衡数据：
+
+  ```shell
+  $ ceph osd getmap -o om
+  $ osdmaptool om --upmap out.txt --upmap-pool xxx
+  $ cat out.txt #查看需要执行的操作的pg
+  $ source out.txt
+  ```
 
 - 使用ceph config设置scrub时间
 
