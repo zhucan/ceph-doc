@@ -218,7 +218,7 @@
   ![image-20230718142241368](./images/image-20230718142241368.png)
 
   ```shell
-  ceph config set osd osd_max_scrubs 1
+  ceph config set osd osd_max_scrubs 0
   ```
 
 
@@ -250,7 +250,7 @@
 
   ```shell
   $ ceph osd getmap -o om
-  $ osdmaptool om --upmap out.txt --upmap-pool xxx
+  $ osdmaptool om --upmap out.txt --upmap-pool xxx --upmap-deviation 5 --upmap-max 10
   $ cat out.txt #查看需要执行的操作的pg
   $ source out.txt
   ```
