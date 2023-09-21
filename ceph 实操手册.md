@@ -5,7 +5,7 @@
   想到的解决方法就是查看 bucket index 记录的存储桶中的对象列表来查看存储桶中到底有哪些对象。通过执行
 
   ```shell
-  $ rados-admin bucket stats --bucket <bucket-name>
+  $ radosgw-admin bucket stats --bucket <bucket-name>
   ```
 
   从中获取到存储桶的 id 为 29b4947b-d038-4511-bd36-9b2c9a2f45e7.271450.1，再执行
